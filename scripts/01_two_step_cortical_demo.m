@@ -4,7 +4,7 @@
 %   Step 1: regress out BMI -> residuals
 %   Step 2: residuals ~ adiposity
 % Only negative association is tested and visualized.  
-% Cluster-forming threshold = 0.01
+% Cluster-forming threshold = 0.01  
 % Corrected P-masks: voxel-P < 0.001, cluster-P < 0.01
 % Outputs: standardized beta, cluster CSV, cluster PNGs
 % -------------------------------------------------------------------------
