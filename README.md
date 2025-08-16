@@ -8,6 +8,7 @@ This repository contains the code used for the major analyses in **MATLAB (R2017
 The study investigated the associations between regional adiposity measures and brain morphology, function connectivity, white matter microstructure and cognition performance, using:  
 1. **Linear regression models**
 2. **Mediation analysis**
+![image](Workflow.png)  
 
 ## Repository Structure
 
