@@ -14,14 +14,14 @@ The study investigated the associations between regional adiposity measures and 
 
 <pre>
 ├── scripts/
-│   ├── 01_linear_regression.m  
-│   ├── 02_mediation_analysis.R  
+│   ├── 01_Two_step_cortical_demo.m    
+│   ├── 02_mediation_analysis.R    
 ├── data/
 │   └── example_data.csv
 └── README.md      
 </pre>
 
-> ⚠️ The data in `example_data.csv` is simulated for illustration only.  
+> ⚠️ The data in `example_data.csv` is simulated for illustration only.    
 > It does **not** reflect real distributions, and the number/type of covariates is simplified.  
 > For full methodological details, please refer to the published paper.  
 
@@ -41,11 +41,11 @@ The study investigated the associations between regional adiposity measures and 
 
 ### 2. Two-Step Regression Analysis   
 
-For each brain metric (e.g., thickness, volume, or other modality) and each adiposity measure:
+For each brain metric (e.g., thickness, volume, or other modality) and each adiposity measure:  
 
 **Step 1: Eliminate BMI masking effect**  
 
-We first remove the influence of overall obesity (BMI) from the brain metric, producing residual values:
+We first remove the influence of overall obesity (BMI) from the brain metric, producing residual values:  
 
 **Model 1**:  
 - Brain_Metric = β₀ + β₁ * BMI + ε  
