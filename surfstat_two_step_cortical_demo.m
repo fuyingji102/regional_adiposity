@@ -14,7 +14,7 @@ CONFIG.DATA_DIR   = 'example_data';
 CONFIG.MORPH_DIR  = fullfile('example_data','T1');
 CONFIG.OUT_DIR    = fullfile('outputs','surfstat');
 CONFIG.LH_PIAL    = 'lh.pial';
-CONFIG.RH_PIAL    = 'rh.pial';
+CONFIG.RH_PIAL    = 'rh.pial';  
 CONFIG.PARTS      = {'arm','leg','trunk','vat'};
 CONFIG.MEASUREMENTS = {'thickness','volume','area'};
 CONFIG.AGG_FMT    = 'SUBJ%d.%s.00.mgh';  
@@ -60,12 +60,21 @@ for ip = 1:numel(CONFIG.PARTS)
     % STEP 2: residual ~ adiposity
     for im = 1:numel(CONFIG.MEASUREMENTS)
         meas = CONFIG.MEASUREMENTS{im};
+        
+        % Extract covariates (excluding BMI and adiposity variable)
+        covariate_names = setdiff(T.Properties.VariableNames, {'eid', part, 'BMI'});
+        X_covars = table2array(T(:, covariate_names));
+        
+        % Convert to SurfStat terms
         model2 = 1 + term(X_adip);
+        for k = 1:size(X_covars, 2)
+            model2 = model2 + term(X_covars(:, k));
+        end
         slm2 = SurfStatLinMod(R.(meas), model2, avsurf);
 
         % Negative direction only  
-        slm_neg = SurfStatT(slm2, -[0 1]);
-        [pval, peak, clus, clusid] = SurfStatP(slm_neg, [], CONFIG.CLUSTER_THRESH);
+        slm_neg = SurfStatT(slm2, -[0 1]);  
+        [pval, peak, clus, clusid] = SurfStatP(slm_neg, [], CONFIG.CLUSTER_THRESH);  
 
         % Dual-threshold mask
         voxel_mask = pval.P < CONFIG.VOXEL_P;
@@ -104,7 +113,7 @@ for ip = 1:numel(CONFIG.PARTS)
         for cid = sig_ids'
             vm = (clusid == cid) & sig_mask;
             if ~any(vm(:)), continue; end
-            f = figure('Color','w','Position',[80 60 900 700]);
+            f = figure('Color','w','Position',[80 60 900 700]);  
             SurfStatView(double(vm), avsurf, sprintf('%s - %s - clus_%d', part, meas, cid));
             colormap(f, gray);
             exportgraphics(f, fullfile(out_path, sprintf('clus_%s_%s_%d.png', part, meas, cid)), 'Resolution', 300);
